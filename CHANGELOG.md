@@ -1,52 +1,49 @@
+# Changelog
+
 ## 1.0.0
 
-- **The fix-test harness is gone from the published surface.** It was
-  `lib/testing.dart` here, which made this package unpublishable: the harness
-  imports `package:test` and `package:analyzer_testing`, and a library under
-  `lib/` may only import from `dependencies`. Declaring them as real
-  dependencies was not an option either, because `test` cannot coexist with the
-  `test_api` that `flutter_test` pins, so every plugin built on this toolkit
-  would have become unresolvable inside a Flutter package.
+Initial release.
 
-  Migration: keep a harness in your plugin's own `test/`. The extension and its
-  members can move there unchanged.
+Shared building blocks for annotation-driven Dart analyzer plugins, extracted
+from three plugins that were each carrying their own copy.
 
-- `export` directives no longer carry `show` clauses. A `show` that lists
-  exactly what the file declares is noise, and one that drifts out of date is
-  worse than noise, so the exported surface is now decided by what the `src/`
-  files declare publicly.
+- **`AnnotationFinder`** resolves annotations by the declaring *package*, not
+  by class name alone, so a same-named annotation from an unrelated package
+  cannot drive rules that know nothing about it. Matching the exact library URI
+  would be too strict instead, since a package may re-export its annotations
+  from several libraries. Non-candidates are rejected by name before a constant
+  is evaluated, which is the expensive part, and the answer is memoized per
+  element.
 
-  That is only safe with something checking it, because without a `show` a
-  helper added to an exported `src/` file becomes public API the moment it is
-  written. `test/public_api_test.dart` pins the exported names of every
-  published library and fails naming the symbol when one leaks. The removal
-  itself was verified the same way: the exported surface is byte-identical to
-  what the `show` clauses produced, so the clauses were redundant rather than
-  load-bearing.
+- **`ElementCache`** is that memoization, usable directly. Keyed by `Expando`,
+  so an entry lives exactly as long as the element it describes rather than
+  pinning every element the analysis server has ever seen. Values are boxed so
+  `null` can be cached, which matters because "carries no annotation" is the
+  common answer and the case the cache exists for.
 
-- Initial release.
+  Soundness depends on the analyzer yielding fresh element objects for edited
+  files, which is its guarantee rather than this package's, so
+  `tool/verify_cache_invalidation.dart` checks it empirically.
 
-  Shared building blocks for annotation-driven analyzer plugins: the
-  per-element memo table, the annotation lookup, and the element normalization
-  that makes elements comparable by identity. A correctness-critical lookup
-  maintained in one place rather than copied into every plugin that needs it.
+- **`normalizeElement`** and **`referencedElement`** undo the analyzer details
+  that stop elements comparing by identity: a field read resolving to its
+  synthetic getter, and a member reached through a generic class resolving to a
+  `*Member` wrapper. `referencedElement` also looks through parentheses,
+  null-assertions and `this.` access, and its `anyTarget` flag decides whether
+  only the enclosing instance's own members resolve.
 
-  What the toolkit provides:
+- **`AliasResolver`** follows a value through the local aliases it hides behind
+  within one function body. Resolution returns a set, because `cond ? _a : _b`
+  is either one and a loop variable over `[_a, _b]` is both in turn. A local
+  counts as an alias only when it is never reassigned, and the walk over the
+  body is deferred until the first question is asked.
 
-  - `ElementCache`, per-element memoization keyed by `Expando`, so an entry
-    lives exactly as long as the element it describes rather than pinning
-    every element the analysis server has ever seen.
-  - `AnnotationFinder`, which resolves annotations by declaring *package*
-    rather than by class name alone, so a same-named annotation from an
-    unrelated package cannot drive rules that know nothing about it. Rejects
-    non-candidates by name before evaluating a constant, which is the
-    expensive part.
-  - `normalizeElement` and `referencedElement`, which undo the two analyzer
-    details that stop elements comparing by identity: a field read resolving
-    to its synthetic getter, and a generic member resolving to a wrapper.
-  - `AliasResolver`, which follows a value through the local aliases it hides
-    behind within one function body.
-  - `bodyOf`, which finds the body of an element declared in the units under
-    analysis.
-  - A `testing` library with a harness that drives the analysis server's real
-    fix pipeline, for asserting what a quick fix produces.
+- **`bodyOf`** finds the body of an element declared in the units under
+  analysis, and **`aliasDepthLimit`** exposes the bound on alias chasing.
+
+The exported surface is pinned by a test, so a helper added to an exported
+`src/` file cannot become public API unnoticed.
+
+This package deliberately ships no harness for testing quick fixes. One has to
+depend on `package:test`, which a plugin's own `lib/` must not pull in, so it
+belongs in your plugin's `test/` rather than here.

@@ -8,6 +8,34 @@ somebody else's package, doing that fast enough to run on every node of every
 file, comparing elements the analyzer hands back in more than one shape, and
 following a value through the local aliases it hides behind.
 
+## Install
+
+```yaml
+dependencies:
+  analyzer_plugin_toolkit: ^1.0.0
+```
+
+```dart
+import 'package:analyzer_plugin_toolkit/analyzer_plugin_toolkit.dart';
+```
+
+This package is for people **writing** an analyzer plugin. If you are looking
+to *use* lint rules in your own project, you want a plugin package, not this.
+
+Requires Dart 3.10 or later, the first version supporting analyzer plugins.
+
+## What it gives you
+
+| API | Solves |
+| --- | --- |
+| `AnnotationFinder` | Does this declaration carry my annotation? Resolved by package, fast enough to ask everywhere. |
+| `ElementCache` | Memoize a per-element answer without leaking memory in a long-running server. |
+| `normalizeElement` | Compare elements the analyzer returns in more than one shape. |
+| `referencedElement` | Find the declaration an expression denotes, through `()`, `!` and `this.`. |
+| `AliasResolver` | Follow a value through the local names it hides behind. |
+
+The `example/` directory sketches a complete rule using all five.
+
 ## `AnnotationFinder`
 
 The core of an annotation-driven rule: does this declaration carry my
@@ -102,22 +130,26 @@ member that turns out to have nothing of interest costs nothing.
 
 ## Testing quick fixes
 
-The fix-test harness that used to live here as `testing.dart` is gone from the
-published surface. It had to go: it imports `package:test`, a library under
-`lib/` may only import from `dependencies`, and making `test` a real dependency
-of this package would push it onto every plugin built on the toolkit, where it
-cannot coexist with the `test_api` that `flutter_test` pins.
+`analyzer_testing` ships a harness for *rules* but not for *fixes*. This
+package does not ship one either: such a harness depends on `package:test`, a
+library under `lib/` may only import from `dependencies`, and making `test` a
+real dependency here would push it onto every plugin built on the toolkit,
+where it cannot coexist with the `test_api` that `flutter_test` pins.
 
-Keep one in your plugin's own `test/` instead. About 200 lines is enough: run
-the fix your rule produced through the server's fix pipeline, apply the edits
-to the source under test, and compare against the expected output.
+Keep one in your plugin's own `test/` instead, driving the analysis server's
+real fix pipeline so a test exercises the same registration, applicability and
+change-building path the IDE uses.
 
 ## Development
 
 ```sh
-dart analyze                                # must be clean
-dart test                                   # the toolkit's own behaviour
+dart analyze                                  # must be clean
+dart test                                     # the toolkit's own behaviour
 dart run tool/verify_cache_invalidation.dart  # the cache cannot go stale
 ```
+
+## License
+
+MIT. See [LICENSE](LICENSE).
 
 [`Expando`]: https://api.dart.dev/stable/dart-core/Expando-class.html
