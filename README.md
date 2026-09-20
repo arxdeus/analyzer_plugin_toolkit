@@ -158,4 +158,3 @@ dart run tool/verify_cache_invalidation.dart  # the cache cannot go stale
 MIT. See [LICENSE](LICENSE).
 
 [`Expando`]: https://api.dart.dev/stable/dart-core/Expando-class.html
-
