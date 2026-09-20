@@ -1,9 +1,10 @@
 name: analyzer_plugin_toolkit
+# Kept between 60 and 180 characters: pana scores the length, and a search
+# result shows only the beginning. The detail this drops is in the README.
 description: >-
-  Shared building blocks for annotation-driven Dart analyzer plugins:
-  per-element memoization, annotation lookup that resolves by package rather
-  than by name alone, element normalization, and a harness for testing quick
-  fixes through the real fix processor.
+  Building blocks for annotation-driven Dart analyzer plugins: annotation
+  lookup that resolves by package, per-element memoization, element
+  normalization and local alias resolution.
 version: 1.0.0
 repository: https://github.com/arxdeus/analyzer_plugin_toolkit
 issue_tracker: https://github.com/arxdeus/analyzer_plugin_toolkit/issues
