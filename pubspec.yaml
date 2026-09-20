@@ -22,6 +22,6 @@ dev_dependencies:
   analyzer_testing: ^0.4.2
   # Only for the shared lint configuration in analysis_options.yaml, which is
   # a data file rather than code: nothing in lib/ imports arxdeus_lints.
-  arxdeus_lints: ^2.0.0
+  arxdeus_lints: ^1.0.0
   test: ^1.25.6
   test_reflective_loader: ^0.4.0
