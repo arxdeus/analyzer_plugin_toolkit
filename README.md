@@ -155,9 +155,8 @@ dart test                                     # the toolkit's own behaviour
 dart run tool/verify_cache_invalidation.dart  # the cache cannot go stale
 ```
 
-The pubspec carries `resolution: workspace`, so the package is developed from
-a workspace root above it. See [CONTRIBUTING.md](CONTRIBUTING.md) for working
-on it standalone, for the commit conventions, and for how a release is cut.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the scope of the package, the
+commit conventions, and how a release is cut.
 
 ## License
 

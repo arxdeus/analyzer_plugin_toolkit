@@ -11,16 +11,31 @@ driven analyzer plugin needs. A helper used by exactly one plugin belongs in
 that plugin, not here. A helper that would pull `package:test` (or anything
 else a plugin's `lib/` may not import) into consumers cannot live here at all.
 
-## Where development happens
+## Getting set up
 
-`pubspec.yaml` carries `resolution: workspace`, because the package is
-developed from a workspace root above it.
+Clone and go. The package is self-contained and every dependency resolves from
+pub.dev:
 
-You can work on it standalone. Clone it and run
-`.github/tool/detach_workspace.sh`, which drops the `resolution: workspace`
-line and points the example at your working tree, then `dart pub get`. Do not
-commit what it changes: pub strips `resolution` itself when publishing, and CI
-runs the same script.
+```sh
+git clone https://github.com/arxdeus/analyzer_plugin_toolkit
+cd analyzer_plugin_toolkit && dart pub get
+```
+
+The example is its own package and resolves separately, against the published
+toolkit rather than your checkout, which is what makes it an honest
+demonstration:
+
+```sh
+cd example && dart pub get
+```
+
+To try the example against your working tree instead, add a
+`example/pubspec_overrides.yaml` pointing `analyzer_plugin_toolkit` at `../`.
+That file is gitignored, and CI writes one of its own for the same reason.
+
+To work on a plugin against your checkout, add a `pubspec_overrides.yaml` in
+that plugin redirecting `analyzer_plugin_toolkit` at it. Nothing in this
+repository needs to change for that.
 
 ## Checks
 
@@ -43,12 +58,9 @@ package's, so `tool/verify_cache_invalidation.dart` checks it empirically
 against the analyzer version actually resolved. Run it after any analyzer
 upgrade.
 
-The exported surface is pinned by a test, which lives in the workspace rather
-than here because it pins every package's surface in one place. If you add a
-declaration to a file under `lib/src/` that is exported, that test fails until
-you acknowledge it, which is the point: public API should be added
-deliberately rather than by being in the wrong file. Run it from a workspace
-checkout with `dart test test/public_api_test.dart`.
+The exported surface is also pinned by a test, so a helper added to an exported
+`src/` file cannot become public API unnoticed. Public API should be added
+deliberately rather than by a declaration landing in the wrong file.
 
 ## Commit messages
 

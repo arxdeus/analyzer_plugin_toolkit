@@ -16,13 +16,6 @@ jobs:
         with:
           sdk: stable
 
-      # This repository is developed inside a workspace and is cloned here on
-      # its own, so it has to be detached before anything can
-      # resolve. See the script for what that means and why the detached tree
-      # is the one worth checking.
-      - name: Detach from the workspace
-        run: .github/tool/detach_workspace.sh
-
       - run: dart pub get
 
       - run: dart format --output=none --set-exit-if-changed .
@@ -37,7 +30,12 @@ jobs:
       - name: Verify cache invalidation
         run: dart run tool/verify_cache_invalidation.dart
 
-  package:
+  # The example resolves this package from pub.dev, which is what makes it a
+  # faithful demonstration but also means it would otherwise be analysed
+  # against the last release rather than the commit under test. The override
+  # closes that gap, and is written here rather than committed so that a reader
+  # cloning the example gets the consumer's resolution.
+  example:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -46,17 +44,28 @@ jobs:
         with:
           sdk: stable
 
-      - name: Detach from the workspace
-        run: .github/tool/detach_workspace.sh
-
-      # `dart pub publish` refuses a dirty tree, and detaching necessarily
-      # dirties it. Committing locally is enough to satisfy that check, and
-      # the commit goes nowhere: this checkout is thrown away with the runner.
-      - name: Commit the detached state
+      - name: Point the example at this commit
         run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git commit --quiet --all --message 'ci: detach for validation'
+          cat > example/pubspec_overrides.yaml <<'YAML'
+          dependency_overrides:
+            analyzer_plugin_toolkit:
+              path: ../
+          YAML
+
+      - run: dart pub get
+        working-directory: example
+
+      - run: dart analyze --fatal-infos
+        working-directory: example
+
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
 
       - run: dart pub get
 

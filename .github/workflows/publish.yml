@@ -5,12 +5,6 @@ name: publish
 # pub authenticates this job through GitHub's OIDC token, which is why there is
 # no secret here and why `id-token: write` is required. Enable it once on
 # pub.dev under the package's Admin tab, matching this workflow's filename.
-#
-# The upstream reusable workflow (dart-lang/setup-dart's publish.yml) would be
-# the obvious thing to call, and it was, until it could not be: this repository
-# needs a step between checkout and publish to detach it from the workspace it
-# is developed in, and a reusable workflow admits no such step. So the job is
-# written out, and is otherwise the same three commands.
 
 on:
   push:
@@ -18,36 +12,6 @@ on:
 
 jobs:
   publish:
-    runs-on: ubuntu-latest
-
-    # Required: pub exchanges this token for a short-lived publish credential.
     permissions:
       id-token: write
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: dart-lang/setup-dart@v1
-        with:
-          sdk: stable
-
-      # Without this nothing resolves: the tree carries `resolution: workspace`
-      # and there is no workspace root above a standalone clone. pub strips the
-      # key from the pubspec it uploads, so this changes nothing a consumer
-      # sees.
-      - name: Detach from the workspace
-        run: .github/tool/detach_workspace.sh
-
-      # `dart pub publish` refuses to publish from a dirty tree, and detaching
-      # dirties it. The commit stays on this discarded checkout.
-      - name: Commit the detached state
-        run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git commit --quiet --all --message 'ci: detach for publication'
-
-      - run: dart pub get
-
-      # The tag has already been reviewed by the time it is pushed, and there
-      # is no terminal here to confirm at.
-      - run: dart pub publish --force
+    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
