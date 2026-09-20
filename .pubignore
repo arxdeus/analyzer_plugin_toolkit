@@ -4,8 +4,11 @@
 # one, and the example depends on this package by version, so it resolves from
 # pub.dev like any consumer's project.
 #
-# Its `pubspec_overrides.yaml` must go, though. That file redirects the version
-# constraint to the working tree for local development, and pub only drops
+# One file under it is excluded anyway. `.github/tool/detach_workspace.sh`
+# generates an override redirecting the example at the working tree, so CI
+# analyses the commit under test rather than the last release. Git ignores it,
+# but a .pubignore replaces .gitignore rather than adding to it, so publishing
+# from a tree where that script has run would otherwise ship it. pub only drops
 # `pubspec_overrides.yaml` automatically at the package root, not in a nested
 # directory like this one.
 example/pubspec_overrides.yaml

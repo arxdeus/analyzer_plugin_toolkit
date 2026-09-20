@@ -16,9 +16,11 @@ else a plugin's `lib/` may not import) into consumers cannot live here at all.
 `pubspec.yaml` carries `resolution: workspace`, because the package is
 developed from a workspace root above it.
 
-You can work on it standalone. Clone it, delete the `resolution: workspace`
-line, and `dart pub get`. Do not commit that deletion: pub strips the key
-itself when publishing, and CI deletes it the same way.
+You can work on it standalone. Clone it and run
+`.github/tool/detach_workspace.sh`, which drops the `resolution: workspace`
+line and points the example at your working tree, then `dart pub get`. Do not
+commit what it changes: pub strips `resolution` itself when publishing, and CI
+runs the same script.
 
 ## Checks
 
