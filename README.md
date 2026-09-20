@@ -100,28 +100,17 @@ initializer only when it is never reassigned. The walk over the body is
 deferred until the first question is asked, so building a resolver for a
 member that turns out to have nothing of interest costs nothing.
 
-## `testing`
+## Testing quick fixes
 
-`analyzer_testing` ships a harness for rules but not for fixes. This one
-drives the analysis server's real fix pipeline, so a test exercises the same
-registration, applicability and change-building path the IDE uses:
+The fix-test harness that used to live here as `testing.dart` is gone from the
+published surface. It had to go: it imports `package:test`, a library under
+`lib/` may only import from `dependencies`, and making `test` a real dependency
+of this package would push it onto every plugin built on the toolkit, where it
+cannot coexist with the `test_api` that `flutter_test` pins.
 
-```dart
-import 'package:analyzer_plugin_toolkit/testing.dart';
-
-void setUp() {
-  registerPluginFixes(MyPlugin());
-}
-
-Future<void> test_addsTheAnnotation() =>
-    assertFixProduces(before, after);
-```
-
-`assertFixProduces` is deliberately stricter than comparing text. It resolves
-the result too, and requires both that it compiles and that the lint no longer
-reports on the code that was reported. Comparing against expected output alone
-would pass for a fix that writes well-formatted code that does not compile, or
-that leaves the warning exactly where it was.
+Keep one in your plugin's own `test/` instead. About 200 lines is enough: run
+the fix your rule produced through the server's fix pipeline, apply the edits
+to the source under test, and compare against the expected output.
 
 ## Development
 

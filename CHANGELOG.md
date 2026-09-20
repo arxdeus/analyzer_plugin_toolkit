@@ -1,5 +1,16 @@
 ## 1.0.0
 
+- **The fix-test harness is gone from the published surface.** It was
+  `lib/testing.dart` here, which made this package unpublishable: the harness
+  imports `package:test` and `package:analyzer_testing`, and a library under
+  `lib/` may only import from `dependencies`. Declaring them as real
+  dependencies was not an option either, because `test` cannot coexist with the
+  `test_api` that `flutter_test` pins, so every plugin built on this toolkit
+  would have become unresolvable inside a Flutter package.
+
+  Migration: keep a harness in your plugin's own `test/`. The extension and its
+  members can move there unchanged.
+
 - `export` directives no longer carry `show` clauses. A `show` that lists
   exactly what the file declares is noise, and one that drifts out of date is
   worse than noise, so the exported surface is now decided by what the `src/`
