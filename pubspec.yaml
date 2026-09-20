@@ -8,6 +8,14 @@ version: 1.0.0
 repository: https://github.com/arxdeus/analyzer_plugin_toolkit
 issue_tracker: https://github.com/arxdeus/analyzer_plugin_toolkit/issues
 
+# Shown on pub.dev and searchable there. Only the vocabulary pub.dev accepts:
+# lowercase, hyphenated, no `dart` or `flutter`.
+topics:
+  - analyzer
+  - analyzer-plugin
+  - lints
+  - static-analysis
+
 environment:
   sdk: ^3.13.2
 
