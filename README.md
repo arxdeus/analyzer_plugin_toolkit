@@ -144,9 +144,6 @@ output.
 
 ## Development
 
-This package declares `resolution: workspace`, so a lone clone cannot resolve
-on its own: `dart pub get` needs a workspace root above it.
-
 ```sh
 dart analyze                                  # must be clean
 dart test                                     # the toolkit's own behaviour
