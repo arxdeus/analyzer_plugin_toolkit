@@ -1,6 +1,4 @@
 name: analyzer_plugin_toolkit
-# Kept between 60 and 180 characters: pana scores the length, and a search
-# result shows only the beginning. The detail this drops is in the README.
 description: >-
   Building blocks for annotation-driven Dart analyzer plugins: annotation
   lookup that resolves by package, per-element memoization, element
@@ -10,13 +8,9 @@ homepage: https://github.com/arxdeus/analyzer_plugin_toolkit
 repository: https://github.com/arxdeus/analyzer_plugin_toolkit
 issue_tracker: https://github.com/arxdeus/analyzer_plugin_toolkit/issues
 
-# Ko-fi, mirrored by .github/FUNDING.yml which renders the Sponsor button on
-# GitHub. pub.dev turns this into a "Funding" link on the package page.
 funding:
   - https://ko-fi.com/arxdeus
 
-# Shown on pub.dev and searchable there. Only the vocabulary pub.dev accepts:
-# lowercase, hyphenated, no `dart` or `flutter`.
 topics:
   - analyzer
   - analyzer-plugin
@@ -33,8 +27,5 @@ dependencies:
 
 dev_dependencies:
   analyzer_testing: ^0.4.2
-  # Only for the shared lint configuration in analysis_options.yaml, which is
-  # a data file rather than code: nothing in lib/ imports arxdeus_lints.
-  arxdeus_lints: ^1.0.0
   test: ^1.25.6
   test_reflective_loader: ^0.4.0

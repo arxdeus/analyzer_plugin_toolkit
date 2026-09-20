@@ -9,8 +9,3 @@ environment:
 dependencies:
   analyzer: ^14.4.0
   analyzer_plugin_toolkit: ^1.0.0
-
-dev_dependencies:
-  # For the shared lint configuration this example's analysis_options.yaml
-  # includes.
-  arxdeus_lints: ^1.0.0
