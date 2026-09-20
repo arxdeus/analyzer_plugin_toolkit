@@ -23,7 +23,8 @@ jobs:
       # `resolution` from the pubspec it uploads, so what CI checks here is
       # what a consumer gets.
       - name: Detach from the workspace
-        run: sed -i '/^resolution: workspace$/d' pubspec.yaml
+        run: |
+          sed -i '/^resolution: workspace$/d' pubspec.yaml
 
       - run: dart pub get
 
@@ -49,7 +50,8 @@ jobs:
           sdk: stable
 
       - name: Detach from the workspace
-        run: sed -i '/^resolution: workspace$/d' pubspec.yaml
+        run: |
+          sed -i '/^resolution: workspace$/d' pubspec.yaml
 
       - run: dart pub get
 
