@@ -16,15 +16,12 @@ jobs:
         with:
           sdk: stable
 
-      # This package is developed from a workspace root above it, and carries
-      # `resolution: workspace` for that reason. Cloned
-      # on its own there is no workspace root above it, so the key has to go
-      # before anything can resolve. Publishing does the same thing: pub strips
-      # `resolution` from the pubspec it uploads, so what CI checks here is
-      # what a consumer gets.
+      # This repository is developed inside a workspace and is cloned here on
+      # its own, so it has to be detached before anything can
+      # resolve. See the script for what that means and why the detached tree
+      # is the one worth checking.
       - name: Detach from the workspace
-        run: |
-          sed -i '/^resolution: workspace$/d' pubspec.yaml
+        run: .github/tool/detach_workspace.sh
 
       - run: dart pub get
 
@@ -50,8 +47,16 @@ jobs:
           sdk: stable
 
       - name: Detach from the workspace
+        run: .github/tool/detach_workspace.sh
+
+      # `dart pub publish` refuses a dirty tree, and detaching necessarily
+      # dirties it. Committing locally is enough to satisfy that check, and
+      # the commit goes nowhere: this checkout is thrown away with the runner.
+      - name: Commit the detached state
         run: |
-          sed -i '/^resolution: workspace$/d' pubspec.yaml
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git commit --quiet --all --message 'ci: detach for validation'
 
       - run: dart pub get
 
