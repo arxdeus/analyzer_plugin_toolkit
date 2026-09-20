@@ -143,6 +143,9 @@ to the source under test, and compare against the expected output.
 
 ## Development
 
+This package declares `resolution: workspace`, so a lone clone cannot resolve
+on its own: `dart pub get` needs a workspace root above it.
+
 ```sh
 dart analyze                                  # must be clean
 dart test                                     # the toolkit's own behaviour
@@ -154,3 +157,4 @@ dart run tool/verify_cache_invalidation.dart  # the cache cannot go stale
 MIT. See [LICENSE](LICENSE).
 
 [`Expando`]: https://api.dart.dev/stable/dart-core/Expando-class.html
+
