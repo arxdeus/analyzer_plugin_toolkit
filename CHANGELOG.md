@@ -1,5 +1,9 @@
 # Changelog
 
+All notable changes to this package are recorded here. Versions follow
+[semver](https://semver.org): for a library other packages build plugins on, a
+rename is breaking even when the behaviour is unchanged.
+
 ## 1.0.0
 
 Initial release.

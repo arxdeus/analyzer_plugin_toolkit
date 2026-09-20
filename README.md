@@ -1,5 +1,9 @@
 # analyzer_plugin_toolkit
 
+[![pub package](https://img.shields.io/pub/v/analyzer_plugin_toolkit.svg)](https://pub.dev/packages/analyzer_plugin_toolkit)
+[![ci](https://github.com/arxdeus/analyzer_plugin_toolkit/actions/workflows/ci.yml/badge.svg)](https://github.com/arxdeus/analyzer_plugin_toolkit/actions/workflows/ci.yml)
+[![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 Shared building blocks for annotation-driven Dart analyzer plugins.
 
 These are the pieces such a plugin needs and none of them should have to write
@@ -22,7 +26,8 @@ import 'package:analyzer_plugin_toolkit/analyzer_plugin_toolkit.dart';
 This package is for people **writing** an analyzer plugin. If you are looking
 to *use* lint rules in your own project, you want a plugin package, not this.
 
-Requires Dart 3.10 or later, the first version supporting analyzer plugins.
+Requires Dart 3.13.2 or later. Analyzer plugins first appeared in 3.10, but
+the element APIs this package is written against settled after that.
 
 ## What it gives you
 
@@ -145,10 +150,14 @@ output.
 ## Development
 
 ```sh
-dart analyze                                  # must be clean
+dart analyze --fatal-infos                    # must be clean
 dart test                                     # the toolkit's own behaviour
 dart run tool/verify_cache_invalidation.dart  # the cache cannot go stale
 ```
+
+The pubspec carries `resolution: workspace`, so the package is developed from
+a workspace root above it. See [CONTRIBUTING.md](CONTRIBUTING.md) for working
+on it standalone, for the commit conventions, and for how a release is cut.
 
 ## License
 
