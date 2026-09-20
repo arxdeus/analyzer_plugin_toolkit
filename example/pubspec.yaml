@@ -9,3 +9,6 @@ environment:
 dependencies:
   analyzer: ^14.4.0
   analyzer_plugin_toolkit: ^1.0.0
+
+dev_dependencies:
+  arxdeus_lints: ^1.0.0

@@ -8,8 +8,7 @@ rename is breaking even when the behaviour is unchanged.
 
 Initial release.
 
-Shared building blocks for annotation-driven Dart analyzer plugins, extracted
-from three plugins that were each carrying their own copy.
+Shared building blocks for annotation-driven Dart analyzer plugins.
 
 - **`AnnotationFinder`** resolves annotations by the declaring *package*, not
   by class name alone, so a same-named annotation from an unrelated package
