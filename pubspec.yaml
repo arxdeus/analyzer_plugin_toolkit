@@ -6,8 +6,14 @@ description: >-
   lookup that resolves by package, per-element memoization, element
   normalization and local alias resolution.
 version: 1.0.0
+homepage: https://github.com/arxdeus/analyzer_plugin_toolkit
 repository: https://github.com/arxdeus/analyzer_plugin_toolkit
 issue_tracker: https://github.com/arxdeus/analyzer_plugin_toolkit/issues
+
+# Ko-fi, mirrored by .github/FUNDING.yml which renders the Sponsor button on
+# GitHub. pub.dev turns this into a "Funding" link on the package page.
+funding:
+  - https://ko-fi.com/arxdeus
 
 # Shown on pub.dev and searchable there. Only the vocabulary pub.dev accepts:
 # lowercase, hyphenated, no `dart` or `flutter`.
