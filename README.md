@@ -137,9 +137,10 @@ and making `test` a real dependency here would push it onto every plugin built
 on the toolkit, where it cannot coexist with the `test_api` that
 `flutter_test` pins.
 
-Keep one in your plugin's own `test/` instead. About 200 lines is enough: run
-the fix your rule produced through the server's fix pipeline, apply the edits
-to the source under test, and compare against the expected output.
+Keep one in your plugin's own `test/src/` instead. Under about 200 lines is
+enough: run the fix your rule produced through the server's fix pipeline, apply
+the edits to the source under test, and compare the result against the expected
+output.
 
 ## Development
 
