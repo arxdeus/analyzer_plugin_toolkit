@@ -1,0 +1,33 @@
+name: Feature request
+description: Propose a building block, or an extension to an existing one.
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This package holds what *more than one* annotation-driven plugin
+        needs. The most convincing request names the plugins that would use
+        it, or shows the code they each carry today.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What are you writing by hand, and why is it awkward?
+    validations:
+      required: true
+
+  - type: textarea
+    id: shape
+    attributes:
+      label: Proposed API
+      description: What the call would look like at the use site.
+      render: dart
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: >-
+        Including keeping it in your own plugin. Why does it belong here
+        instead?

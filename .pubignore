@@ -21,3 +21,11 @@ example/pubspec_overrides.yaml
 build/
 coverage/
 reports/
+
+# Repository machinery, not package content: workflows, issue forms and the
+# contributor guide all address people working *on* this package in GitHub,
+# and none of them is reachable from the pub.dev page.
+#
+# `CONTRIBUTING.md` stays, though: pana looks for it, and a reader of the
+# package page is exactly who should find it.
+/.github/

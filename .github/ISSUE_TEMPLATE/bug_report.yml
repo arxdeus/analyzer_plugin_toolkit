@@ -1,0 +1,50 @@
+name: Bug report
+description: Something in the toolkit behaves differently than documented.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        If the wrong diagnostic is reported by a *plugin* built on this
+        toolkit, file it against that plugin instead. Issues here should be
+        about `AnnotationFinder`, `ElementCache`, `normalizeElement`,
+        `referencedElement`, `AliasResolver`, or `bodyOf`.
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you expected, and what you got instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction
+      description: >-
+        The smallest Dart source the helper is asked about, and the call you
+        make. A failing test is ideal.
+      render: dart
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: analyzer_plugin_toolkit version
+      placeholder: 1.0.0
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: >-
+        Output of `dart --version`, and the resolved `analyzer` version from
+        your lockfile. Element modelling changes between analyzer releases, so
+        both matter.
+      render: text
+    validations:
+      required: true

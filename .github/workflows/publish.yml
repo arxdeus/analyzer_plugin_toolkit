@@ -1,0 +1,20 @@
+name: publish
+
+# Automated publishing to pub.dev. pub.dev authenticates this workflow through
+# GitHub's OIDC token rather than a stored credential, which is why there is no
+# secret here and why the job must keep `id-token: write`.
+#
+# Enable it once on pub.dev under the package's Admin tab, then release by
+# pushing a tag matching the version in pubspec.yaml:
+#
+#     git tag v1.0.0 && git push origin v1.0.0
+
+on:
+  push:
+    tags: ['v[0-9]+.[0-9]+.[0-9]+*']
+
+jobs:
+  publish:
+    permissions:
+      id-token: write
+    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1

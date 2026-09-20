@@ -1,0 +1,56 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+
+      # This package is developed from a workspace root above it, and carries
+      # `resolution: workspace` for that reason. Cloned
+      # on its own there is no workspace root above it, so the key has to go
+      # before anything can resolve. Publishing does the same thing: pub strips
+      # `resolution` from the pubspec it uploads, so what CI checks here is
+      # what a consumer gets.
+      - name: Detach from the workspace
+        run: sed -i '/^resolution: workspace$/d' pubspec.yaml
+
+      - run: dart pub get
+
+      - run: dart format --output=none --set-exit-if-changed .
+
+      - run: dart analyze --fatal-infos
+
+      - run: dart test
+
+      # The per-element cache is sound only because the analyzer hands back
+      # fresh element objects for edited files. That is its guarantee, not
+      # ours, so it is checked rather than assumed.
+      - name: Verify cache invalidation
+        run: dart run tool/verify_cache_invalidation.dart
+
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+
+      - name: Detach from the workspace
+        run: sed -i '/^resolution: workspace$/d' pubspec.yaml
+
+      - run: dart pub get
+
+      - run: dart pub publish --dry-run
