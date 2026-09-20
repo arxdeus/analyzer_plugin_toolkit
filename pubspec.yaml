@@ -1,0 +1,30 @@
+name: analyzer_plugin_toolkit
+description: >-
+  Shared building blocks for annotation-driven Dart analyzer plugins:
+  per-element memoization, annotation lookup that resolves by package rather
+  than by name alone, element normalization, and a harness for testing quick
+  fixes through the real fix processor.
+version: 1.0.0
+repository: https://github.com/arxdeus/arxdeus_lints
+
+environment:
+  sdk: ^3.13.2
+
+dependencies:
+  analysis_server_plugin: ^0.3.23
+  analyzer: ^14.4.0
+  analyzer_plugin: ^0.14.17
+  analyzer_testing: ^0.4.2
+  test: ^1.25.6
+
+dev_dependencies:
+  # Only for the shared lint configuration in analysis_options.yaml, which is
+  # a data file rather than code: nothing in lib/ imports arxdeus_lints. Pub
+  # resolves dev_dependencies only for the package being developed, so this
+  # does not become a cycle for anyone depending on the toolkit.
+  arxdeus_lints: any
+  test_reflective_loader: ^0.4.0
+
+dependency_overrides:
+  arxdeus_lints:
+    path: ../../

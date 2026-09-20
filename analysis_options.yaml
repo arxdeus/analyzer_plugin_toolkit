@@ -1,0 +1,6 @@
+# The toolkit is held to the same standard as the plugins built on it.
+include: package:arxdeus_lints/analysis_options/recommended.yaml
+
+analyzer:
+  exclude:
+    - build/**
