@@ -44,6 +44,7 @@ from three plugins that were each carrying their own copy.
 The exported surface is pinned by a test, so a helper added to an exported
 `src/` file cannot become public API unnoticed.
 
-This package deliberately ships no harness for testing quick fixes. One has to
-depend on `package:test`, which a plugin's own `lib/` must not pull in, so it
-belongs in your plugin's `test/` rather than here.
+This package deliberately ships no test harness. One for quick fixes has to
+import `package:test`, which a plugin's own `lib/` must not pull in: it cannot
+coexist with the `test_api` that `flutter_test` pins, and every plugin built on
+this toolkit would inherit the conflict.

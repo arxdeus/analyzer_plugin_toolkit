@@ -131,14 +131,15 @@ member that turns out to have nothing of interest costs nothing.
 ## Testing quick fixes
 
 `analyzer_testing` ships a harness for *rules* but not for *fixes*. This
-package does not ship one either: such a harness depends on `package:test`, a
-library under `lib/` may only import from `dependencies`, and making `test` a
-real dependency here would push it onto every plugin built on the toolkit,
-where it cannot coexist with the `test_api` that `flutter_test` pins.
+package does not ship one either, deliberately: such a harness must import
+`package:test`, a library under `lib/` may only import from `dependencies`,
+and making `test` a real dependency here would push it onto every plugin built
+on the toolkit, where it cannot coexist with the `test_api` that
+`flutter_test` pins.
 
-Keep one in your plugin's own `test/` instead, driving the analysis server's
-real fix pipeline so a test exercises the same registration, applicability and
-change-building path the IDE uses.
+Keep one in your plugin's own `test/` instead. About 200 lines is enough: run
+the fix your rule produced through the server's fix pipeline, apply the edits
+to the source under test, and compare against the expected output.
 
 ## Development
 

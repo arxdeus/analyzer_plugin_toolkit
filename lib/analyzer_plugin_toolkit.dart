@@ -6,8 +6,10 @@
 /// of every file, comparing elements that the analyzer hands back in more than
 /// one shape, and following a value through the local aliases it hides behind.
 ///
-/// No harness for asserting what a quick fix produces ships here: one has to
-/// depend on `package:test`, which a plugin's `lib/` may not pull in.
+/// This library deliberately provides no test harness: one would have to
+/// import `package:test`, which a library under `lib/` may not do unless it is
+/// a real dependency, and `test` cannot coexist with the `test_api` that
+/// `flutter_test` pins.
 library;
 
 export 'package:analyzer_plugin_toolkit/src/aliases.dart';
