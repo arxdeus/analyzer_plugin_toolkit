@@ -1,0 +1,8 @@
+# Redirects the version constraint above to the working tree, so the example
+# demonstrates the toolkit as it stands here rather than the last published
+# release. Kept out of the archive by this package's .pubignore.
+dependency_overrides:
+  analyzer_plugin_toolkit:
+    path: ../
+  arxdeus_lints:
+    path: ../../arxdeus_lints

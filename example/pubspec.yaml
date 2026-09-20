@@ -1,0 +1,16 @@
+name: analyzer_plugin_toolkit_example
+description: Demonstrates the analyzer_plugin_toolkit building blocks.
+publish_to: none
+version: 1.0.0
+
+environment:
+  sdk: ^3.13.2
+
+dependencies:
+  analyzer: ^14.4.0
+  analyzer_plugin_toolkit: ^1.0.0
+
+dev_dependencies:
+  # For the shared lint configuration this example's analysis_options.yaml
+  # includes.
+  arxdeus_lints: ^2.0.0

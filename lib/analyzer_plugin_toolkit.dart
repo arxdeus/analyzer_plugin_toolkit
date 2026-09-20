@@ -6,8 +6,8 @@
 /// of every file, comparing elements that the analyzer hands back in more than
 /// one shape, and following a value through the local aliases it hides behind.
 ///
-/// The `testing` library, imported separately, adds a harness for asserting
-/// what a quick fix produces.
+/// No harness for asserting what a quick fix produces ships here: one has to
+/// depend on `package:test`, which a plugin's `lib/` may not pull in.
 library;
 
 export 'package:analyzer_plugin_toolkit/src/aliases.dart';

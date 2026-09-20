@@ -1,9 +1,23 @@
-# Excluded from the published archive: the repository's own lint
-# configuration, which pulls in `arxdeus_lints`. A consumer's analysis of this
-# package should not be governed by it.
-analysis_options.yaml
+# Excluded from the published archive.
+#
+# `example/` is deliberately NOT excluded: pana awards 10 points for shipping
+# one, and the example depends on this package by version, so it resolves from
+# pub.dev like any consumer's project.
+#
+# Its `pubspec_overrides.yaml` must go, though. That file redirects the version
+# constraint to the working tree for local development, and pub only drops
+# `pubspec_overrides.yaml` automatically at the package root, not in a nested
+# directory like this one.
+example/pubspec_overrides.yaml
 
-pubspec.lock
+# The repository's own lint configuration, which pulls in `arxdeus_lints`.
+# A consumer's analysis of this package should not be governed by it.
+#
+# Leading slash matters: it anchors this to the package root, so an example's
+# own analysis_options.yaml stays in the archive.
+/analysis_options.yaml
+
+/pubspec.lock
 build/
 coverage/
 reports/

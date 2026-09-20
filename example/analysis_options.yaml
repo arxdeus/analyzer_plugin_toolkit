@@ -1,0 +1,2 @@
+# Held to the same standard as the toolkit itself.
+include: package:arxdeus_lints/analysis_options/recommended.yaml
