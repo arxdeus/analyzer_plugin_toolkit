@@ -1,5 +1,13 @@
 /// A harness for testing analyzer-plugin quick fixes.
 ///
+/// Import this from your `test/` directory, never from `lib/`. It is the one
+/// library here that depends on `package:test` and `package:analyzer_testing`,
+/// and those are deliberately not dependencies of this package: `test` cannot
+/// coexist with the `test_api` that `flutter_test` pins, so declaring it would
+/// make any plugin built on this toolkit unresolvable inside a Flutter
+/// package. A consumer importing this library already has both in its own
+/// dev_dependencies, which is where they belong.
+///
 /// `analyzer_testing` ships a harness for *rules* but not for *fixes*, so this
 /// drives the real fix processor against a resolved unit: the same
 /// registration, applicability and change-building path the IDE uses, rather
@@ -24,6 +32,10 @@ import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/diagnostic/diagnostic.dart';
 import 'package:analyzer/instrumentation/service.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart';
+// ignore_for_file: depend_on_referenced_packages
+//
+// See the library doc above: these two are supplied by the consuming package's
+// dev_dependencies rather than by this one, on purpose.
 import 'package:analyzer_testing/analysis_rule/analysis_rule.dart';
 import 'package:test/test.dart';
 
