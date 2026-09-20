@@ -10,11 +10,8 @@
 /// what a quick fix produces.
 library;
 
-export 'package:analyzer_plugin_toolkit/src/aliases.dart'
-    show AliasResolver, aliasDepthLimit;
-export 'package:analyzer_plugin_toolkit/src/annotation_finder.dart'
-    show AnnotationFinder;
-export 'package:analyzer_plugin_toolkit/src/cache.dart' show ElementCache;
-export 'package:analyzer_plugin_toolkit/src/declarations.dart' show bodyOf;
-export 'package:analyzer_plugin_toolkit/src/elements.dart'
-    show normalizeElement, referencedElement;
+export 'package:analyzer_plugin_toolkit/src/aliases.dart';
+export 'package:analyzer_plugin_toolkit/src/annotation_finder.dart';
+export 'package:analyzer_plugin_toolkit/src/cache.dart';
+export 'package:analyzer_plugin_toolkit/src/declarations.dart';
+export 'package:analyzer_plugin_toolkit/src/elements.dart';
