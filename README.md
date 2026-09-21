@@ -26,7 +26,7 @@ import 'package:analyzer_plugin_toolkit/analyzer_plugin_toolkit.dart';
 This package is for people **writing** an analyzer plugin. If you are looking
 to *use* lint rules in your own project, you want a plugin package, not this.
 
-Requires Dart 3.13.2 or later. Analyzer plugins first appeared in 3.10, but
+Requires Dart 3.11 or later. Analyzer plugins first appeared in 3.10, but
 the element APIs this package is written against settled after that.
 
 ## What it gives you
