@@ -3,7 +3,7 @@ description: >-
   Building blocks for annotation-driven Dart analyzer plugins: annotation
   lookup that resolves by package, per-element memoization, element
   normalization and local alias resolution.
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/arxdeus/analyzer_plugin_toolkit
 repository: https://github.com/arxdeus/analyzer_plugin_toolkit
 issue_tracker: https://github.com/arxdeus/analyzer_plugin_toolkit/issues
